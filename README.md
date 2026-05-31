@@ -1,42 +1,32 @@
-# 🍕 Awesome Pizza - Order Management Portal
+# 🍕 Awesome Pizza API
 
-Awesome Pizza is a backend system designed to manage pizza orders efficiently. This is **Iteration 1** of the project, focusing on a robust REST API for customers and pizza makers (pizzaioli), featuring a FIFO (First-In-First-Out) queue system.
+Simple REST API to manage pizza orders.
 
-## 🚀 Overview
-
-The portal allows customers to place orders without registration and monitor their progress using a unique tracking code. The pizza maker can manage the queue, taking charge of one order at a time to ensure quality and order sequence.
-
-## ✨ Features
-
-- **For Customers**:
-  - Place an order instantly (no login required).
-  - Receive a unique **8-character tracking code**.
-  - Monitor real-time status: `PLACED`, `IN_PROGRESS`, `COMPLETED`.
-- **For Pizza Makers**:
-  - Automatically fetch the next order in the queue (**FIFO logic**).
-  - **Single Tasking**: The system prevents taking a new order if one is already being prepared.
-  - One-click order completion.
-
-## 🛠 Tech Stack
-
-- **Java 21**
-- **Spring Boot 3.4.1**
-- **Spring Data JPA**
-- **H2 Database** (In-memory database)
-- **Lombok** (Optional)
-- **SpringDoc OpenAPI (Swagger UI)**
-- **JUnit 5 & Mockito** (Unit Testing)
+## 🚀 How to Start
+1. **Run the Application**: Open the main class in IntelliJ and click the green "Play" button, or run `mvn spring-boot:run` in the terminal.
+2. **Access the GUI (Swagger)**:
+   Once the app is running, open your browser at:
+   👉 **http://localhost:8080/swagger-ui/index.html**
 
 ---
 
-## 🔧 Installation & Running
+## 📍 API Endpoints
 
-### Prerequisites
-- **JDK 21**
-- **Maven 3.8+**
+### 👤 Customer Endpoints
+- **POST** `/api/v1/orders`  
+  *Creates a new order and returns a unique 8-character tracking code.*
+- **GET** `/api/v1/orders/{code}`  
+  *Check the current status (PLACED, IN_PROGRESS, COMPLETED) using your code.*
 
-### Steps
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/awesome-pizza.git
-   cd awesome-pizza
+### 👨‍🍳 Pizza Maker (Pizzaiolo) Endpoints
+- **PATCH** `/api/v1/pizzaiolo/next`  
+  *Picks up the oldest order from the queue. Note: You can only handle one order at a time.*
+- **PATCH** `/api/v1/pizzaiolo/{id}/complete`  
+  *Marks the specific order as finished/ready.*
+
+---
+
+## ⚖️ Business Rules
+- **FIFO Queue**: The oldest order is always processed first.
+- **Single Tasking**: The system blocks the pizza maker from taking a new order if one is already "In Progress".
+- **Database**: The app uses an in-memory H2 database (data is reset on restart).

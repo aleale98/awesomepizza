@@ -5,15 +5,17 @@ import com.awesomepizza.alessiomungelli.domain.Status;
 import com.awesomepizza.alessiomungelli.dto.OrderResponseDTO;
 import com.awesomepizza.alessiomungelli.persistence.OrderRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
+
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Transactional
     public OrderResponseDTO createOrder() {

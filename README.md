@@ -1,29 +1,42 @@
-🧪 Testing the API
-1. Interactive Swagger UI (Recommended)
-Once the application is running, access the graphical interface to test all endpoints:
-👉 http://localhost:8080/swagger-ui/index.html
-2. Manual Endpoints Reference
-Customer API
-Method	Endpoint	Description
-POST	/api/v1/orders	Create a new order and get a tracking code.
-GET	/api/v1/orders/{code}	Get the current status of an order.
-Pizza Maker API
-Method	Endpoint	Description
-PATCH	/api/v1/pizzaiolo/next	Take the oldest pending order (sets status to IN_PROGRESS).
-PATCH	/api/v1/pizzaiolo/{id}/complete	Mark a specific order as COMPLETED.
-🏗 Architecture Decisions
-FIFO Logic: Orders are processed based on their creation timestamp (createdAt), ensuring the first customer to order is the first to be served.
-Concurrency Guard: The system checks if any order is currently IN_PROGRESS before allowing a pizza maker to take a new one, preventing multiple simultaneous tasks for a single station.
-DTO Pattern: Used Java Records for Data Transfer Objects to ensure immutability and clean API responses, decoupling the Database Entity from the JSON output.
-Error Handling: A Global Exception Handler is implemented to return meaningful HTTP status codes (e.g., 404 Not Found for invalid codes, 400 Bad Request if the pizza maker is busy).
-🧪 Unit Tests
-To run the automated tests:
-code
-Bash
-mvn test
-The test suite covers service logic, repository interactions, and edge cases (e.g., trying to take an order while another is in progress).
-🗄 Database Console
-You can inspect the in-memory database at any time:
-URL: http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:testdb
-User: sa | Password: (leave blank)
+# 🍕 Awesome Pizza - Order Management Portal
+
+Awesome Pizza is a backend system designed to manage pizza orders efficiently. This is **Iteration 1** of the project, focusing on a robust REST API for customers and pizza makers (pizzaioli), featuring a FIFO (First-In-First-Out) queue system.
+
+## 🚀 Overview
+
+The portal allows customers to place orders without registration and monitor their progress using a unique tracking code. The pizza maker can manage the queue, taking charge of one order at a time to ensure quality and order sequence.
+
+## ✨ Features
+
+- **For Customers**:
+  - Place an order instantly (no login required).
+  - Receive a unique **8-character tracking code**.
+  - Monitor real-time status: `PLACED`, `IN_PROGRESS`, `COMPLETED`.
+- **For Pizza Makers**:
+  - Automatically fetch the next order in the queue (**FIFO logic**).
+  - **Single Tasking**: The system prevents taking a new order if one is already being prepared.
+  - One-click order completion.
+
+## 🛠 Tech Stack
+
+- **Java 21**
+- **Spring Boot 3.4.1**
+- **Spring Data JPA**
+- **H2 Database** (In-memory database)
+- **Lombok** (Optional)
+- **SpringDoc OpenAPI (Swagger UI)**
+- **JUnit 5 & Mockito** (Unit Testing)
+
+---
+
+## 🔧 Installation & Running
+
+### Prerequisites
+- **JDK 21**
+- **Maven 3.8+**
+
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/awesome-pizza.git
+   cd awesome-pizza

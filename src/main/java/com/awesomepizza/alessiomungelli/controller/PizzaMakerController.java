@@ -17,13 +17,11 @@ public class PizzaMakerController {
         this.orderService = orderService;
     }
 
-    // Prende in carico il prossimo ordine
     @PatchMapping("/next")
     public OrderResponseDTO takeNext() {
         return orderService.takeNextOrder();
     }
 
-    // Segna l'ordine come completato
     @PatchMapping("/{id}/complete")
     public OrderResponseDTO complete(@PathVariable Long id) {
         return orderService.completeOrder(id);

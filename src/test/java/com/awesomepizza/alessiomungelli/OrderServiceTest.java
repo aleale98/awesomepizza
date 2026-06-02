@@ -41,7 +41,6 @@ public class OrderServiceTest {
     @Test
     @DisplayName("Try to take new order, pizza maker is not busy and throws no exception")
     public void whenPizzaioloIsFree_thenTakeNextOrder() {
-        // GIVEN (Configuriamo i mock)
         PizzaOrder mockOrder = new PizzaOrder();
         mockOrder.setStatus(Status.PLACED);
         when(orderRepository.existsByStatus(Status.IN_PROGRESS)).thenReturn(false);

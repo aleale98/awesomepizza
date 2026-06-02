@@ -28,13 +28,9 @@ public class PizzaOrder {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // --- COSTRUTTORI ---
-
-    // Costruttore vuoto richiesto da JPA
     public PizzaOrder() {
     }
 
-    // Costruttore completo
     public PizzaOrder(Long id, String orderCode, Status status, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.orderCode = orderCode;
@@ -42,8 +38,6 @@ public class PizzaOrder {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
-    // --- GETTER E SETTER ---
 
     public Long getId() {
         return id;

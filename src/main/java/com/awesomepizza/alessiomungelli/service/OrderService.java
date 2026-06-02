@@ -23,11 +23,7 @@ public class OrderService {
         String customerCode = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         order.setOrderCode(customerCode);
         order.setStatus(Status.PLACED);
-
-        // 2. Salvo l'ENTITY
         PizzaOrder savedOrder = orderRepository.save(order);
-
-        // 3. Trasformo l'ENTITY salvata in DTO per il controller
         return OrderResponseDTO.fromEntity(savedOrder);
     }
 
@@ -36,22 +32,15 @@ public class OrderService {
         if (orderRepository.existsByStatus(Status.IN_PROGRESS)) {
             throw new RuntimeException("Pizza maker busy");
         }
-
-        // Recupero l'ENTITY dal database
         PizzaOrder nextOrder = orderRepository.findFirstByStatusOrderByCreatedAtAsc(Status.PLACED)
                 .orElseThrow(() -> new RuntimeException("Empty queue!"));
-
-        // Modifico l'ENTITY
         nextOrder.setStatus(Status.IN_PROGRESS);
         PizzaOrder savedOrder = orderRepository.save(nextOrder);
-
-        // Restituisco il DTO
         return OrderResponseDTO.fromEntity(savedOrder);
     }
 
     @Transactional
     public OrderResponseDTO completeOrder(Long id) {
-        // Cerco l'ENTITY per ID
         PizzaOrder order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Wrong id!"));
 
@@ -67,7 +56,6 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDTO getOrderByCode(String code) {
-        // Cerco l'ENTITY per codice
         PizzaOrder order = orderRepository.findByOrderCode(code)
                 .orElseThrow(() -> new RuntimeException("Order not found with code: " + code));
 
